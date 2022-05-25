@@ -4,6 +4,7 @@ from razdel import sentenize
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
 import numpy as np
+from pathlib import Path
 
 
 def custom_sentenize(text: str) -> list:
@@ -84,3 +85,12 @@ class LuhnSummarizer:
                              sentences_sf[i] > sentence_sf_threshold_percentile_75]
 
         return "".join(summary_sentences)
+
+
+if __name__ =="__main__":
+    summarizator = LuhnSummarizer()
+
+    text = ""
+    with open (Path("data/article_ru.txt"), "r", encoding='utf-8') as f:
+        text = "".join(f.readlines())
+    print(summarizator.summarize(text))

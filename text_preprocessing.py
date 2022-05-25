@@ -5,8 +5,8 @@ from nltk.stem.snowball import SnowballStemmer
 import pycld2 as cld2
 
 # Create stopwords dictionary
-stopwords_dict = {'RUSSIAN': stopwords.words("russian"),
-                  'ENGLISH': stopwords.words("english")}
+stopwords_dict = {'RUSSIAN': stopwords.words('russian'),
+                  'ENGLISH': stopwords.words('english')}
 
 
 def language_detection(text: str) -> str:
@@ -14,14 +14,15 @@ def language_detection(text: str) -> str:
 
 
 def custom_tokenize(text: str) -> list:
-    stopwords = language_detection(text)
+    lang = language_detection(text)
     text = text.lower()
     tokens = list(tokenize(text))
-    tokens = [token.text for token in tokens if token.text not in stopwords \
+    tokens = [token.text for token in tokens if token.text not in stopwords_dict['RUSSIAN'] \
               and token.text != " " \
               and token.text.strip() not in punctuation]
-    stemmer = SnowballStemmer(language=stopwords.lower())
+    stemmer = SnowballStemmer(language='russian') #lang.lower()
     stemmed_tokens = []
     for token in tokens:
         stemmed_tokens.append(stemmer.stem(token))
     return stemmed_tokens
+

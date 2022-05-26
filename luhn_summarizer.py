@@ -1,4 +1,5 @@
-from text_preprocessing import custom_tokenize
+from text_preprocessing import custom_tokenize, language_detection
+
 #from razdel import tokenize
 from razdel import sentenize
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -20,6 +21,7 @@ class LuhnSummarizer:
         self.is_stemmed = is_stemmed
         self.is_stemmed = True
         self.sf_word_threshold = 0.001
+        self.lang = 'RUSSIAN'
 
     def tokenize_sent(self, sentences: list) -> list:
 
@@ -29,7 +31,7 @@ class LuhnSummarizer:
 
     def create_word_freq_dict(self, text: str) -> dict:  # Bag of Words
 
-        tokens = custom_tokenize(text)
+        tokens = custom_tokenize(text, self.lang)
         tokens = [x for x in tokens]
         vectorizer = TfidfVectorizer(use_idf=False)
         X = vectorizer.fit_transform(tokens)
@@ -69,12 +71,13 @@ class LuhnSummarizer:
         return significance_factor
 
     def summarize(self, text: str) -> str:
+        self.lang = language_detection(text)
         sentences = custom_sentenize(text)
         text_freq_dict = self.create_word_freq_dict(text)
 
         sentences_sf = []
         for sent in sentences:
-            sentence_tokens = custom_tokenize(sent)
+            sentence_tokens = custom_tokenize(sent, self.lang)
             sentences_sf.append(
                 self.compute_significance_factor(text_freq_dict, sentence_tokens) if len(sentence_tokens) > 0 else 0)
 

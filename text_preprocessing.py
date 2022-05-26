@@ -13,15 +13,13 @@ def language_detection(text: str) -> str:
     return cld2.detect(text)[2][0][0]
 
 
-def custom_tokenize(text: str) -> list: #'RUSSIAN'
+def custom_tokenize(text: str) -> list:
     lang = language_detection(text)
     text = text.lower()
     tokens = list(tokenize(text))
-    what_is_it = stopwords_dict['RUSSIAN']
-    tokens = [token.text for token in tokens if token.text not in stopwords_dict[lang] \
+    tokens = [token.text for token in tokens if token.text not in stopwords_dict['RUSSIAN'] \
               and token.text != " " \
               and token.text.strip() not in punctuation]
-    and_this = lang.lower()
     stemmer = SnowballStemmer(language='russian') #lang.lower()
     stemmed_tokens = []
     for token in tokens:

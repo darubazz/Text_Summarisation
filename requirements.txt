@@ -5,3 +5,4 @@ pandas~=1.4.2
 scikit-learn~=1.0
 numpy~=1.19.5
 pycld2~=0.41
+typer~=0.4.1

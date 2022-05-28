@@ -4,9 +4,11 @@ from razdel import tokenize
 from nltk.stem.snowball import SnowballStemmer
 import pycld2 as cld2
 
-# Create stopwords dictionary
 stopwords_dict = {'RUSSIAN': stopwords.words('russian'),
-                  'ENGLISH': stopwords.words('english')}
+                  'ENGLISH': stopwords.words('english'),
+                  'GERMAN': stopwords.words('german'),
+                  'FRENCH': stopwords.words('french'),
+                  'ITALIAN': stopwords.words('italian')}
 
 
 def language_detection(text: str) -> str:
@@ -14,13 +16,15 @@ def language_detection(text: str) -> str:
 
 
 def custom_tokenize(text: str, lang: str) -> list:
-
     text = text.lower()
     tokens = list(tokenize(text))
+
     tokens = [token.text for token in tokens if token.text not in stopwords_dict[lang] \
               and token.text != " " \
               and token.text.strip() not in punctuation]
-    stemmer = SnowballStemmer(language=lang.lower()) #lang.lower()
+
+    stemmer = SnowballStemmer(language=lang.lower())
+
     stemmed_tokens = []
     for token in tokens:
         stemmed_tokens.append(stemmer.stem(token))

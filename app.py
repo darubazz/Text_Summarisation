@@ -18,14 +18,13 @@ def summarize(text_path: Optional[Path]):
     with open(text_path, "r", encoding='utf-8') as f:
         text = "".join(f.readlines())
 
-    sum = summarizer.summarize(text)
+    result_text = summarizer.summarize(text)
 
-    # saving results
-    save_path = Path("./data/results/result_text_ru.txt")
+    result_text_path = Path("./data/results/result_text.txt")
     with open(save_path, "w") as f:
-        f.writelines(sum)
+        f.writelines(result_text)
 
-    logging.info(f"Summarization successes. Text from {text_path} saved to {save_path}")
+    logging.info(f"Summarization successes. Text from {text_path} saved to {result_text_path}")
 
 
 if __name__ == '__main__':
